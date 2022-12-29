@@ -51,6 +51,18 @@ public class UserController {
         return "listUsers";
     }
 
+    @GetMapping("/{id}")
+    public String getAllUsers(User user, Model model){
+        if(user.getId() != null){
+            service.getOneUser(user.getId());
+            model.addAttribute("user", user);
+            return "redirect:user";
+        }else{
+            model.addAttribute("message", "Usuario nao encontrado ou nao existe");
+        }
+        return "registerUser";
+    }
+
     private void getCaptcha(User user){
         Captcha captcha = CaptchaUtil.createCaptcha(240, 70);
         user.setHiddenCaptcha(captcha.getAnswer());
